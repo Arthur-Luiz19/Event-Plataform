@@ -1,0 +1,8 @@
+ALTER TABLE reservations
+    ADD COLUMN quantity INTEGER NOT NULL DEFAULT 1;
+
+ALTER TABLE reservations
+    ADD COLUMN status VARCHAR(30) NOT NULL DEFAULT 'PENDING_PAYMENT';
+
+ALTER TABLE reservations
+DROP CONSTRAINT IF EXISTS uk_reservation_user_event;

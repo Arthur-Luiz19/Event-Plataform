@@ -29,7 +29,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
-
+                        .requestMatchers(HttpMethod.GET, "/events/**").permitAll()
+                        .requestMatchers("/events/**").hasRole("ORGANIZER")
+                        .requestMatchers("/reservations/**").hasRole("CLIENT")
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
