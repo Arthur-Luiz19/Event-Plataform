@@ -1,0 +1,2 @@
+ALTER TABLE tickets
+    ADD COLUMN share_token VARCHAR(64) NOT NULL UNIQUE;
