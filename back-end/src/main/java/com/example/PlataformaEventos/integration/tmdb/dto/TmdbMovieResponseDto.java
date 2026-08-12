@@ -10,6 +10,9 @@ public record TmdbMovieResponseDto(
         String overview,
 
         @JsonProperty("poster_path")
-        String posterPath
+        String posterPath,
+
+        @JsonProperty("release_date")
+        String releaseDate
 ) {
 }

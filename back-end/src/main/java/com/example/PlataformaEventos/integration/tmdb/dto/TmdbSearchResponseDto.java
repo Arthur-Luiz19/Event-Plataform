@@ -1,4 +1,8 @@
 package com.example.PlataformaEventos.integration.tmdb.dto;
 
-public record TmdbSearchResponseDto() {
+import java.util.List;
+
+public record TmdbSearchResponseDto(
+        List<TmdbMovieResponseDto> results
+) {
 }

@@ -58,6 +58,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/events/**").permitAll()
                         .requestMatchers("/events/**").hasRole("ORGANIZER")
+                        .requestMatchers("/catalog/**").hasRole("ORGANIZER")
                         .requestMatchers("/reservations/**").hasRole("CLIENT")
                         .requestMatchers("/payments/**").hasRole("CLIENT")
                         .requestMatchers("/tickets/share/**").permitAll()
