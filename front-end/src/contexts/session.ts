@@ -1,4 +1,4 @@
-export type Role = 'ORGANIZER' | 'CLIENT' | 'GATE'
+export type Role = 'ROLE_ORGANIZER' | 'ROLE_CLIENT' | 'ROLE_GATE'
 
 export type SessionUser = {
   userId: string
@@ -30,9 +30,9 @@ export function clearSession() {
 }
 
 export function roleHome(role: Role): string {
-  if (role === 'ORGANIZER') return '/organizador'
-  if (role === 'CLIENT') return '/cliente'
-  if (role === 'GATE') return '/portaria'
+  if (role === 'ROLE_ORGANIZER') return '/organizador'
+  if (role === 'ROLE_CLIENT') return '/cliente'
+  if (role === 'ROLE_GATE') return '/portaria'
 
   return '/'
 }

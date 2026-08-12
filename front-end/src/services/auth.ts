@@ -13,10 +13,10 @@ type AuthResponse = {
   role: Role
 }
 
-function toSession(b: AuthResponse): Session {
+function toSession(auth: AuthResponse): Session {
   return {
-    token: b.token,
-    user: { userId: b.userId, name: b.name, email: b.email, role: b.role }
+    token: auth.token,
+    user: { userId: auth.userId, name: auth.name, email: auth.email, role: auth.role }
   }
 }
 
