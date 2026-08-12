@@ -21,7 +21,7 @@ public class GateController {
     ) {
 
         return ResponseEntity.ok(
-                gateService.validateTicket(request.code())
+                gateService.validateTicket(request.code(), request.eventId())
         );
     }
 }

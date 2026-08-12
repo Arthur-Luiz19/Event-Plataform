@@ -6,14 +6,16 @@ import com.example.PlataformaEventos.ticket.services.TicketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class GateService {
 
     private final TicketService ticketService;
 
-    public GateValidationResponseDto validateTicket(String code) {
-        Ticket ticket = ticketService.validate(code);
+    public GateValidationResponseDto validateTicket(String code, UUID eventId) {
+        Ticket ticket = ticketService.validate(code, eventId);
 
         return new GateValidationResponseDto(ticket);
     }

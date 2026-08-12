@@ -1,9 +1,6 @@
 package com.example.PlataformaEventos.exception;
 
-import com.example.PlataformaEventos.exception.custom.BusinessException;
-import com.example.PlataformaEventos.exception.custom.ConflictException;
-import com.example.PlataformaEventos.exception.custom.ForbiddenException;
-import com.example.PlataformaEventos.exception.custom.ResourceNotFoundException;
+import com.example.PlataformaEventos.exception.custom.*;
 import com.example.PlataformaEventos.exception.dtos.ErrorResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -105,6 +102,16 @@ public class GlobalExceptionHandler {
         return buildResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 "Ocorreu um erro interno no servidor"
+        );
+    }
+
+    @ExceptionHandler(WrongEventException.class)
+    public ResponseEntity<ErrorResponseDto> handleWrongEvent(
+            WrongEventException exception
+    ) {
+        return buildResponse(
+                HttpStatus.UNPROCESSABLE_CONTENT,
+                exception.getMessage()
         );
     }
 }

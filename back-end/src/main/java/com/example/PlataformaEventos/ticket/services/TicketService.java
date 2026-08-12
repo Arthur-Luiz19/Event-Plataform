@@ -2,6 +2,7 @@ package com.example.PlataformaEventos.ticket.services;
 
 import com.example.PlataformaEventos.exception.custom.ConflictException;
 import com.example.PlataformaEventos.exception.custom.ResourceNotFoundException;
+import com.example.PlataformaEventos.exception.custom.WrongEventException;
 import com.example.PlataformaEventos.reservation.entities.Reservation;
 import com.example.PlataformaEventos.ticket.dtos.TicketQrCodeResponseDto;
 import com.example.PlataformaEventos.ticket.dtos.TicketResponseDto;
@@ -74,7 +75,7 @@ public class TicketService {
     }
 
     @Transactional
-    public Ticket validate(String code) {
+    public Ticket validate(String code, UUID eventId) {
 
         Ticket ticket = ticketRepository.findByCodeForUpdate(code)
                 .orElseThrow(() ->
@@ -82,6 +83,12 @@ public class TicketService {
                                 "Ingresso não encontrado"
                         )
                 );
+
+        if (!ticket.getReservation().getEvent().getId().equals(eventId)) {
+            throw new WrongEventException(
+                    "Ingresso válido para outro evento: " + ticket.getReservation().getEvent().getTitle()
+            );
+        }
 
         if (ticket.getStatus() == TicketStatus.USED) {
             throw new ConflictException(
