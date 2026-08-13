@@ -58,7 +58,7 @@ Mesma senha para todos: **1234**
 | Cliente | cliente@email.com |
 | Portaria | portaria@email.com |
 
-## Roteiro de teste (5 minutos)
+## Roteiro de teste
 
 1. **Organizador** → painel → "Novo evento" → busca por filme do TMDb
    → escolhe o filme → define data/local/capacidade/preço → publica.
