@@ -32,7 +32,6 @@ export function GatePage() {
     validation.mutate({ code, eventId }, { onSuccess: (outcome) => setHistory((h) => [{ code, outcome, at: new Date() }, ...h].slice(0, 8)) })
   }
 
-  // câmera lendo o mesmo QR em loop → valida 1x a cada 5s por código
   function handleScan(code: string) {
     const now = Date.now()
     if (lastScanRef.current?.code === code && now - lastScanRef.current.at < 5000) return
@@ -43,7 +42,7 @@ export function GatePage() {
   const last = history[0]
 
   return (
-    <div className="min-h-dvh bg-bg">
+    <div className="min-h-dvh">
       <AppHeader />
       <main className="mx-auto max-w-5xl px-4 py-10">
         <header className="mb-8">

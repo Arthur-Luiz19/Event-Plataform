@@ -39,7 +39,7 @@ export function QrScanner({ onDecode }: { onDecode: (text: string) => void }) {
       setFailed(false)
       setRunning(true)
     } catch {
-      setFailed(true) // sem câmera → fallback manual continua visível
+      setFailed(true)
     }
   }
 
