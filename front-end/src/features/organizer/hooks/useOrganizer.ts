@@ -4,7 +4,6 @@ import { useAuth } from '@/contexts/useAuth'
 import { useEvents } from '@/features/clients/hooks/useEvents'
 import { createEvent, deleteEvent, searchCatalog, updateEvent, type CreateEventInput, type UpdateEventInput } from '@/services/organizer'
 
-// Eventos do organizador: derivados do catálogo público pelo organizerId
 export function useMyEvents() {
   const { session } = useAuth()
   const query = useEvents()
@@ -12,8 +11,6 @@ export function useMyEvents() {
   return { ...query, data }
 }
 
-// Busca no catálogo TMDb (proxy do back); só dispara com 2+ caracteres
-// e mantém o resultado anterior enquanto o novo chega (sem flicker)
 export function useCatalogSearch(query: string) {
   return useQuery({
     queryKey: ['catalog', query],

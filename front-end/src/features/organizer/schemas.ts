@@ -1,4 +1,3 @@
-// src/features/organizer/schemas.ts
 import { z } from 'zod'
 
 export const eventFormSchema = z.object({
@@ -12,5 +11,4 @@ export const eventFormSchema = z.object({
   ticketPrice: z.number({ message: 'Informe o preço.' }).min(0.01, 'O preço deve ser maior que zero.')
 })
 
-// ← esta linha que estava faltando:
 export type EventFormInput = z.infer<typeof eventFormSchema>
