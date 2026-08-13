@@ -6,7 +6,10 @@ import com.example.PlataformaEventos.user.entities.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -30,8 +33,16 @@ public class Reservation {
     @JoinColumn(name = "event_id", nullable = false)
     private Event event;
 
-    @Column(nullable = false)
-    private Integer quantity;
+    @Builder.Default
+    @OneToMany(
+            mappedBy = "reservation",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<ReservationSeat> reservationSeats = new ArrayList<>();
+
+    @Column(name = "total_amount", nullable = false, precision = 10, scale = 2)
+    private BigDecimal totalAmount;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
@@ -49,5 +60,15 @@ public class Reservation {
         if (status == null) {
             status = ReservationStatus.PENDING_PAYMENT;
         }
+    }
+
+    public void addReservationSeat(ReservationSeat reservationSeat) {
+        reservationSeats.add(reservationSeat);
+        reservationSeat.setReservation(this);
+    }
+
+    public void removeReservationSeat(ReservationSeat reservationSeat) {
+        reservationSeats.remove(reservationSeat);
+        reservationSeat.setReservation(null);
     }
 }

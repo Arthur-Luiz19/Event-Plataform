@@ -11,21 +11,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface ReservationRepository extends JpaRepository<Reservation, UUID> {
-
-    @Query("""
-                SELECT COALESCE(SUM(r.quantity), 0)
-                FROM Reservation r
-                WHERE r.event = :event
-                AND r.status IN :statuses
-            """)
-    long sumQuantityByEventAndStatus(
-            @Param("event") Event event,
-            @Param("statuses") Collection<ReservationStatus> statuses
-    );
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("""
@@ -35,4 +25,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, UUID> 
                 WHERE r.id = :id
             """)
     Optional<Reservation> findByIdForUpdate(@Param("id") UUID id);
+
+    List<Reservation> findByUserIdOrderByCreatedAtDesc(UUID userId);
 }

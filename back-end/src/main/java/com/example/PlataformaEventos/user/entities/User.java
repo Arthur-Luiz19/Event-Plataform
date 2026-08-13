@@ -44,7 +44,9 @@ public class User implements UserDetails {
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
-        this.role = Roles.ROLE_CLIENT;
+        if (role == null) {
+            role = Roles.ROLE_CLIENT;
+        }
     }
 
     @Override

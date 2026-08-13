@@ -1,9 +1,13 @@
 package com.example.PlataformaEventos.reservation.dtos;
 
 import com.example.PlataformaEventos.reservation.entities.Reservation;
+import com.example.PlataformaEventos.reservation.entities.ReservationSeat;
 import com.example.PlataformaEventos.reservation.enums.ReservationStatus;
+import com.example.PlataformaEventos.reservation.enums.TicketType;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public record ReservationResponseDto(
@@ -12,10 +16,30 @@ public record ReservationResponseDto(
         String eventTitle,
         UUID userId,
         String userName,
-        Integer quantity,
         ReservationStatus status,
-        LocalDateTime createdAt
+        LocalDateTime createdAt,
+        BigDecimal totalAmount,
+        List<SeatItem> seats
 ) {
+    public record SeatItem(
+            UUID seatId,
+            String seatLabel,
+            String seatRow,
+            Integer seatNumber,
+            TicketType ticketType,
+            BigDecimal price
+    ) {
+        SeatItem(ReservationSeat reservationSeat) {
+            this(
+                    reservationSeat.getSeat().getId(),
+                    reservationSeat.getSeat().getLabel(),
+                    reservationSeat.getSeat().getRow(),
+                    reservationSeat.getSeat().getNumber(),
+                    reservationSeat.getTicketType(),
+                    reservationSeat.getPrice()
+            );
+        }
+    }
 
     public ReservationResponseDto(Reservation reservation) {
         this(
@@ -24,9 +48,12 @@ public record ReservationResponseDto(
                 reservation.getEvent().getTitle(),
                 reservation.getUser().getId(),
                 reservation.getUser().getName(),
-                reservation.getQuantity(),
                 reservation.getStatus(),
-                reservation.getCreatedAt()
+                reservation.getCreatedAt(),
+                reservation.getTotalAmount(),
+                reservation.getReservationSeats().stream()
+                        .map(SeatItem::new)
+                        .toList()
         );
     }
 }
