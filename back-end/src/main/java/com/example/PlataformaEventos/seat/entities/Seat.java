@@ -38,4 +38,8 @@ public class Seat {
 
     @Column(name = "seat_number", nullable = false)
     private Integer number;
+
+    public String getLabel() {
+        return row + number;
+    }
 }
