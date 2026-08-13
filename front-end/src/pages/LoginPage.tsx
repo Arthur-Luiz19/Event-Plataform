@@ -44,7 +44,7 @@ export function LoginPage() {
 
         <div>
           <Label htmlFor="password">Senha</Label>
-          <Input id="password" type="password" autoComplete="current-password" placeholder="••••••••" invalid={!!errors.password} {...register('password')} />
+          <Input id="password" type="password" autoComplete="current-password" placeholder="••••" invalid={!!errors.password} {...register('password')} />
           <FieldError>{errors.password?.message}</FieldError>
         </div>
 
@@ -61,9 +61,9 @@ export function LoginPage() {
       </p>
 
       <Alert tone="warn" className="mt-8">
-        <strong className="font-semibold">Contas de demonstração</strong> (semeadas no back-end):
+        <strong className="font-semibold">Contas de demonstração</strong> (Mesma senha para todos):
         <br />
-        <span className="font-mono text-xs">cliente@demo.app · organizador@demo.app · portaria@demo.app — senha 123456</span>
+        <span className="font-mono text-xs">cliente@teste.com · cliente@email.com · portaria@email.com · organizador@email.com — senha 1234</span>
       </Alert>
     </AuthLayout>
   )

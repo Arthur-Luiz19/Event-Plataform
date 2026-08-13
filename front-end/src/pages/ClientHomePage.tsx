@@ -10,7 +10,6 @@ export function ClientHomePage() {
   const [query, setQuery] = useState('')
   const { data: events = [], isPending, isError, error, refetch } = useEvents()
 
-  // busca client-side pelos campos que existem no DTO
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
     if (!q) return events
@@ -18,11 +17,14 @@ export function ClientHomePage() {
   }, [events, query])
 
   return (
-    <div className="min-h-dvh bg-bg">
+    <div className="min-h-dvh">
       <AppHeader />
       <main className="mx-auto max-w-6xl px-4 pb-16">
         <section className="py-10 sm:py-14">
-          <h1 className="font-display text-4xl text-ink sm:text-5xl">Em cartaz agora</h1>
+          <div className="flex items-center gap-3">
+            <h1 className="font-display text-4xl text-ink sm:text-5xl">Em cartaz agora</h1>
+            <img src="/pipoca.png" alt="" className="h-8 w-8 object-contain sm:h-10 sm:w-10" />
+          </div>
           <p className="mt-2 max-w-xl text-sm text-mute">Filmes e eventos culturais com reserva em poucos cliques. Busque por título, local ou organizador.</p>
           <div className="mt-6 max-w-md">
             <Input type="search" placeholder="Buscar por título, local ou organizador…" aria-label="Buscar eventos" value={query} onChange={(e) => setQuery(e.target.value)} />

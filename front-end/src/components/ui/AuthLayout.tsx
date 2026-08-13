@@ -9,7 +9,7 @@ const roles = [
 
 export function AuthLayout({ children, title, subtitle }: { children: ReactNode; title: string; subtitle: string }) {
   return (
-    <div className="grid min-h-dvh lg:grid-cols-[1.1fr_1fr]">
+    <div className="grid min-h-dvh bg-bg bg-bg bg-bg lg:grid-cols-[1.1fr_1fr]">
       <aside className="relative hidden flex-col justify-between overflow-hidden border-r border-line p-10 lg:flex">
         <div aria-hidden className="pointer-events-none absolute -left-32 -top-32 size-96 rounded-full bg-accent/15 blur-3xl" />
         <Logo />
