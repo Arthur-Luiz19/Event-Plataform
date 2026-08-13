@@ -43,7 +43,6 @@ public class TmdbService {
         }
     }
 
-    // query vazia → populares; senão → busca por título
     public List<CatalogMovieDto> searchMovies(String query) {
         if (query == null || query.isBlank()) {
             return List.of();

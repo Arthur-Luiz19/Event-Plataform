@@ -62,14 +62,7 @@ public class PaymentService {
             );
         }
 
-        BigDecimal amount =
-                reservation.getEvent()
-                        .getTicketPrice()
-                        .multiply(
-                                BigDecimal.valueOf(
-                                        reservation.getQuantity()
-                                )
-                        );
+        BigDecimal amount = reservation.getTotalAmount();
 
         Payment payment = Payment.builder()
                 .reservation(reservation)

@@ -7,6 +7,7 @@ import com.example.PlataformaEventos.event.entities.Event;
 import com.example.PlataformaEventos.event.repositories.EventRepository;
 import com.example.PlataformaEventos.integration.tmdb.dto.TmdbMovieResponseDto;
 import com.example.PlataformaEventos.integration.tmdb.services.TmdbService;
+import com.example.PlataformaEventos.seat.services.SeatService;
 import com.example.PlataformaEventos.user.entities.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ public class EventService {
 
     private final EventRepository eventRepository;
     private final TmdbService tmdbService;
+    private final SeatService seatService;
 
     @Transactional
     public EventResponseDto createEvent(EventRequestDto data, User organizer) {
@@ -41,6 +43,7 @@ public class EventService {
                 .build();
 
         Event savedEvent = eventRepository.save(event);
+        seatService.generateSeatsForEvent(savedEvent);
         return new EventResponseDto(savedEvent);
     }
 
