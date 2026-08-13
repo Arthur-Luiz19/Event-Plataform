@@ -22,6 +22,7 @@ JDK 17+, Maven, Node 18+, PostgreSQL rodando localmente e uma chave gratuita
 da API do TMDb (developer.themoviedb.org).
 
 ### Back-end (porta 8080)
+Criar arquivo **application.properties** 
 Em `back-end/src/main/resources/application.properties`:
 ```properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/event_platform
@@ -38,6 +39,10 @@ cd back-end && mvn spring-boot:run
   assentos. É idempotente: se já existir algum usuário, não semeia de novo.
 
 ### Front-end (porta 5173)
+criar arquivo .env na raiz do projeto Em `front-end/.env`
+```
+VITE_API_URL=http://localhost:8080
+```
 ```bash
 cd front-end && npm install && npm run dev
 ```
