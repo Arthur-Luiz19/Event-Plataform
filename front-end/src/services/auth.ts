@@ -2,9 +2,6 @@ import type { Role, Session } from '@/contexts/session'
 import type { LoginInput, RegisterInput } from '@/features/auth/schemas'
 import { http } from '@/lib/http'
 
-// O Zod do formulário valida a entrada; aqui declaramos o mínimo que o back espera
-// Reutilizamos os tipos de entrada do schema para manter validação e contrato sincronizados.
-
 type AuthResponse = {
   token: string
   userId: string

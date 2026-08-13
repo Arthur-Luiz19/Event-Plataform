@@ -6,7 +6,6 @@ export const http = axios.create({
   headers: { 'Content-Type': 'application/json' },
 })
 
-// Anexa o Bearer token em toda requisição autenticada (reservas, ingressos, etc.)
 http.interceptors.request.use((config) => {
   const session = getSession()
 
@@ -14,7 +13,6 @@ http.interceptors.request.use((config) => {
   return config
 })
 
-// Traduz erros do Spring/axios em mensagem apresentável na UI
 export function apiErrorMessage(err: unknown): string {
 
   if (axios.isAxiosError(err)) {

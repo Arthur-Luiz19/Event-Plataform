@@ -28,6 +28,6 @@ export async function validateAtGate(code: string, eventId: string): Promise<Gat
       if (status === 409) return { kind: 'used' }
       if (status === 422) return { kind: 'wrong-event', data: body }
     }
-    throw err // erro de rede/5xx → trata como falha técnica na UI
+    throw err
   }
 }

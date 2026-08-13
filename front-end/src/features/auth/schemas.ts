@@ -6,9 +6,6 @@ export const loginSchema = z.object({
 })
 export type LoginInput = z.infer<typeof loginSchema>
 
-// Decisão documentada: o backend decide o papel (CLIENT por padrão).
-// ORGANIZER e GATE são criados via seed — isso é mais seguro que abrir
-// o cadastro para "eu quero ser organizador" e alinha com o PDF.
 export const registerSchema = z
   .object({
     name: z.string().trim().min(3, 'Informe seu nome.'),
