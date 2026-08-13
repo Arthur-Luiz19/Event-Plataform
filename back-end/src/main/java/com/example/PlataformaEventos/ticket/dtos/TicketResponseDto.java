@@ -1,5 +1,6 @@
 package com.example.PlataformaEventos.ticket.dtos;
 
+import com.example.PlataformaEventos.reservation.enums.TicketType;
 import com.example.PlataformaEventos.ticket.entities.Ticket;
 import com.example.PlataformaEventos.ticket.enums.TicketStatus;
 
@@ -9,24 +10,27 @@ import java.util.UUID;
 public record TicketResponseDto(
         UUID id,
         String code,
+        String shareToken,
         TicketStatus status,
+        LocalDateTime usedAt,
         String eventTitle,
+        String eventLocation,
         LocalDateTime eventStartDateTime,
-        String location,
-        LocalDateTime createdAt,
-        LocalDateTime usedAt
+        String seatLabel,
+        TicketType ticketType
 ) {
-
     public TicketResponseDto(Ticket ticket) {
         this(
                 ticket.getId(),
                 ticket.getCode(),
+                ticket.getShareToken(),
                 ticket.getStatus(),
+                ticket.getUsedAt(),
                 ticket.getReservation().getEvent().getTitle(),
-                ticket.getReservation().getEvent().getStartDateTime(),
                 ticket.getReservation().getEvent().getLocation(),
-                ticket.getCreatedAt(),
-                ticket.getUsedAt()
+                ticket.getReservation().getEvent().getStartDateTime(),
+                ticket.getReservationSeat().getSeat().getLabel(),
+                ticket.getReservationSeat().getTicketType()
         );
     }
 }

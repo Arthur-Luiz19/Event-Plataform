@@ -1,6 +1,7 @@
 package com.example.PlataformaEventos.ticket.entities;
 
 import com.example.PlataformaEventos.reservation.entities.Reservation;
+import com.example.PlataformaEventos.reservation.entities.ReservationSeat;
 import com.example.PlataformaEventos.ticket.enums.TicketStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -32,6 +33,10 @@ public class Ticket {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "reservation_id", nullable = false)
     private Reservation reservation;
+
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "reservation_seat_id", nullable = false, unique = true)
+    private ReservationSeat reservationSeat;
 
     @Column(nullable = false, unique = true, length = 64)
     private String code;

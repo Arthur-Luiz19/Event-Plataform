@@ -4,6 +4,7 @@ import com.example.PlataformaEventos.exception.custom.ConflictException;
 import com.example.PlataformaEventos.exception.custom.ResourceNotFoundException;
 import com.example.PlataformaEventos.exception.custom.WrongEventException;
 import com.example.PlataformaEventos.reservation.entities.Reservation;
+import com.example.PlataformaEventos.reservation.entities.ReservationSeat;
 import com.example.PlataformaEventos.ticket.dtos.TicketQrCodeResponseDto;
 import com.example.PlataformaEventos.ticket.dtos.TicketResponseDto;
 import com.example.PlataformaEventos.ticket.dtos.TicketShareResponseDto;
@@ -38,10 +39,11 @@ public class TicketService {
 
         List<Ticket> tickets = new ArrayList<>();
 
-        for (int i = 0; i < reservation.getQuantity(); i++) {
+        for (ReservationSeat reservationSeat : reservation.getReservationSeats()) {
 
             Ticket ticket = Ticket.builder()
                     .reservation(reservation)
+                    .reservationSeat(reservationSeat)
                     .code(generateUniqueCode())
                     .build();
 
@@ -131,22 +133,11 @@ public class TicketService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public TicketShareResponseDto findByShareToken(String shareToken) {
-
-        Ticket ticket = ticketRepository
-                .findByShareTokenWithDetails(shareToken)
+        return ticketRepository.findByShareTokenWithDetails(shareToken)
+                .map(TicketShareResponseDto::new)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "Ingresso não encontrado"
-                        )
-                );
-
-        return new TicketShareResponseDto(
-                ticket.getReservation().getEvent().getTitle(),
-                ticket.getReservation().getEvent().getPosterUrl(),
-                ticket.getReservation().getEvent().getStartDateTime(),
-                ticket.getReservation().getEvent().getLocation(),
-                ticket.getStatus()
-        );
+                        new ResourceNotFoundException("Link inválido ou expirado"));
     }
 }
