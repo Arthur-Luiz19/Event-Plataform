@@ -32,6 +32,7 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
+  overflow-x: clip;
 }
 
 /* detalhe de acabamento: seleção cor de refletor */
