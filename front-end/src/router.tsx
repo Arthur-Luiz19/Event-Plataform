@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, Navigate } from 'react-router-dom'
 import { LoginPage } from './pages/LoginPage'
 import { ClientHomePage } from './pages/ClientHomePage'
 import { RequireRole } from './components/guards/RequireRole'
@@ -6,6 +6,7 @@ import NotFoundPage from './pages/NotFoundPage'
 import { CheckoutPage, EventDetailsPage, GatePage, MyReservationsPage, MyTicketsPage, OrganizerEventFormPage, OrganizerPage, PurchaseSuccessPage, RegisterPage, ReservationPage, TicketSharePage } from './pages/lazy'
 
 export const router = createBrowserRouter([
+  { path: '/', element: <Navigate to="/entrar" replace /> },
   { path: '/entrar', element: <LoginPage /> },
   { path: '/cadastro', element: <RegisterPage /> },
   {
