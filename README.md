@@ -149,9 +149,17 @@ Os 7 grupos de endpoints documentados:
 
 ## Uso de IA
 
-Ferramenta: **Qwen3.8**e **ChatGPT**, como par de programação e revisão.
-**Com IA:** discussão de modelagem de dados, implementação de segurança do Spring Boot
-auxílio de resolução de problemas de funcionamento e de performance, geração de 
-código sob minha especificação e debugging, organização de código e de layouts.
-**Sem IA:** Desenvolvimento de CRUDs, implementação de telas do front-end e
-tema visual.
+Ferramentas: Qwen3.8 e ChatGPT, como par de programação e revisão. Conduzi a 
+IA durante suas implementações: as decisões de arquitetura, contratos e UX são 
+minhas; a ferramenta executou sob especificação e cada trecho foi validado por 
+mim em teste manual.
+- **Com IA:** discussão de modelagem de dados (reserva por assento, locks, snapshot 
+de preços, QR como bearer token), implementação e revisão da segurança Spring 
+Security + JWT, debugging guiado por stack trace (CORS e mixed content no deploy), 
+geração de código sob minha especificação (DTOs, hooks, anotações Swagger) e 
+ajustes de layout/responsivo, e o passo a passo de infra (EC2 + Nginx + Let's 
+Encrypt + Vercel).
+- **Sem IA:** desenvolvimento dos CRUDs e services, todas as telas do front-end e o 
+tema visual "noir", os testes manuais de todos os fluxos (reserva → pagamento → 
+ingresso com QR → portaria), as mensagens de commit e o README e o raciocínio 
+por trás das mudanças relevantes.
