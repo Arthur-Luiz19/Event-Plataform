@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { formatDateTime } from '@/lib/format'
 import type { TicketView } from '@/services/tickets'
-import { QrCode } from './QrCode'
+import { QrCode } from './ui/QrCode'
 
 export function TicketCard({ ticket, footer }: { ticket: TicketView; footer?: ReactNode }) {
   return (
