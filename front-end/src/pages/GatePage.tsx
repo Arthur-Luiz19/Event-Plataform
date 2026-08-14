@@ -23,13 +23,23 @@ export function GatePage() {
   const { data: events = [] } = useEvents()
   const [eventId, setEventId] = useState('')
   const [manualCode, setManualCode] = useState('')
+  const [notice, setNotice] = useState<string | null>(null)
   const [history, setHistory] = useState<ScanRecord[]>([])
   const validation = useGateValidation()
   const lastScanRef = useRef<{ code: string; at: number } | null>(null)
 
   function validate(code: string) {
-    if (!eventId) return
-    validation.mutate({ code, eventId }, { onSuccess: (outcome) => setHistory((h) => [{ code, outcome, at: new Date() }, ...h].slice(0, 8)) })
+    if (!eventId) {
+      setNotice('Selecione a sessão em atendimento antes de validar.')
+      return
+    }
+    setNotice(null)
+    validation.mutate(
+      { code, eventId },
+      {
+        onSuccess: (outcome) => setHistory((h) => [{ code, outcome, at: new Date() }, ...h].slice(0, 8))
+      }
+    )
   }
 
   function handleScan(code: string) {
@@ -63,6 +73,8 @@ export function GatePage() {
           </select>
           {!eventId && <p className="mt-1.5 text-xs text-warn">Selecione a sessão para começar a validar.</p>}
         </div>
+
+        {notice && <p className="mb-6 rounded-lg border border-warn/50 bg-warn/10 px-4 py-3 text-xs text-warn">{notice}</p>}
 
         <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
           <div className="space-y-6">
@@ -117,13 +129,13 @@ export function GatePage() {
               <p className="text-sm text-mute">Nenhuma leitura ainda.</p>
             ) : (
               <ul className="space-y-2">
-                {history.map((history) => (
-                  <li key={`${history.code}-${history.at.getTime()}`} className={`rounded-lg border p-3 ${outcomeUi[history.outcome.kind].box}`}>
+                {history.map((record) => (
+                  <li key={`${record.code}-${record.at.getTime()}`} className={`rounded-lg border p-3 ${outcomeUi[record.outcome.kind].box}`}>
                     <div className="flex items-center justify-between">
-                      <span className={`text-[10px] font-semibold uppercase tracking-wider ${outcomeUi[history.outcome.kind].text}`}>{outcomeUi[history.outcome.kind].title}</span>
-                      <span className="text-[10px] text-mute">{history.at.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
+                      <span className={`text-[10px] font-semibold uppercase tracking-wider ${outcomeUi[record.outcome.kind].text}`}>{outcomeUi[record.outcome.kind].title}</span>
+                      <span className="text-[10px] text-mute">{record.at.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
                     </div>
-                    <p className="mt-1 truncate font-mono text-xs text-mute">{history.code}</p>
+                    <p className="mt-1 truncate font-mono text-xs text-mute">{record.code}</p>
                   </li>
                 ))}
               </ul>
