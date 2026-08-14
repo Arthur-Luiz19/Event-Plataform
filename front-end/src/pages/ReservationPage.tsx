@@ -71,7 +71,7 @@ export function ReservationPage() {
               ))}
             </div>
           ) : (
-            <div className="space-y-2 overflow-x-auto min-w-[540px] sm:min-w-0">
+            <div className="space-y-2 overflow-x-auto">
               {rows.map(([row, rowSeats]) => (
                 <div key={row} className="flex items-center justify-center gap-2">
                   <span className="w-4 font-mono text-xs text-mute">{row}</span>
