@@ -5,6 +5,8 @@ import com.example.PlataformaEventos.event.dtos.EventResponseDto;
 import com.example.PlataformaEventos.event.dtos.UpdateEventRequestDto;
 import com.example.PlataformaEventos.event.services.EventService;
 import com.example.PlataformaEventos.user.entities.User;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+@Tag(name = "Eventos", description = "Sessões publicadas pelo organizador")
 @RestController
 @RequestMapping("/events")
 @RequiredArgsConstructor
@@ -22,6 +25,10 @@ public class EventController {
 
     private final EventService eventService;
 
+    @Operation(
+            summary = "Publica um novo evento",
+            description = "Somente ORGANIZER. Ao publicar, a grade de assentos é gerada automaticamente."
+    )
     @PostMapping
     public ResponseEntity<EventResponseDto> create(
             @Valid @RequestBody EventRequestDto data,
@@ -38,6 +45,10 @@ public class EventController {
                 .body(response);
     }
 
+    @Operation(
+            summary = "Lista eventos publicados",
+            description = "Catálogo público consumido pela home do cliente."
+    )
     @GetMapping
     public ResponseEntity<List<EventResponseDto>> findAll() {
 
@@ -46,6 +57,9 @@ public class EventController {
         );
     }
 
+    @Operation(
+            summary = "Detalha um evento"
+    )
     @GetMapping("/{id}")
     public ResponseEntity<EventResponseDto> findById(
             @PathVariable UUID id
@@ -56,6 +70,10 @@ public class EventController {
         );
     }
 
+    @Operation(
+            summary = "Atualiza um evento",
+            description = "Somente o organizador dono do evento. Editar capacidade não regenera assentos já existentes."
+    )
     @PutMapping("/{id}")
     public ResponseEntity<EventResponseDto> update(
             @PathVariable UUID id,
@@ -74,6 +92,10 @@ public class EventController {
         );
     }
 
+    @Operation(
+            summary = "Remove um evento",
+            description = "Somente o organizador dono do evento."
+    )
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(
             @PathVariable UUID id,
