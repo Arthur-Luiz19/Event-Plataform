@@ -6,20 +6,29 @@ escolhe ingressos inteira/meia por assento, paga de forma simulada, recebe ingre
 QR e compartilha por link; a **portaria** valida na entrada pela câmera ou por
 digitação, com retorno claro (válido, já utilizado, evento errado, inválido).
 
+## 🌐 Aplicação publicada
+
+- **Front-end:** [https://event-plataform.vercel.app](https://event-plataform-theta.vercel.app/) (Vercel, HTTPS automático)
+- **API:** https://cine-noir.duckdns.org (EC2 `t2.micro` + Nginx + Let's Encrypt, `us-east-2`)
+- **Banco:** RDS PostgreSQL `us-east-2`
+
+Contas de demonstração estão na tabela abaixo — funcionam tanto no deploy
+publicado quanto rodando localmente com o seed.
+
 ## Stack
 
 | Camada | Tecnologias |
 |---|---|
-| Front-end | React + Vite + TypeScript, Tailwind (design system próprio "noir"), TanStack Query, react-hook-form + zod, html5-qrcode, qrcode.react |
-| Back-end | Java 17 + Spring Boot (Security, Data JPA, Validation, WebClient), Flyway |
+| Front | React + Vite + TypeScript, Tailwind (design system próprio "noir"), TanStack Query, react-hook-form + zod, html5-qrcode, qrcode.react |
+| Back | Java 17 + Spring Boot 4 (Security, Data JPA, Validation, WebClient), Flyway, Swagger (springdoc-openapi) |
 | Banco | PostgreSQL |
 | API externa | TMDb (catálogo de filmes) |
+| Infra | AWS EC2 (API) + RDS (banco) + Vercel (front) + duckdns.org + Let's Encrypt |
 
 ## Como executar
 
 ### Pré-requisitos
-JDK 17+, Maven, Node 18+, PostgreSQL rodando localmente e uma chave gratuita
-da API do TMDb (developer.themoviedb.org).
+JDK 17+, Maven, Node 18+, Docker.
 
 ### Back-end (porta 8080)
 Criar arquivo **application.properties** 
@@ -46,6 +55,15 @@ VITE_API_URL=http://localhost:8080
 ```bash
 cd front-end && npm install && npm run dev
 ```
+### Rodando tudo com Docker Compose
+Com `TMDB_API_KEY` num `.env ` | `.properties ` na raiz:
+
+```bash
+docker compose up --build
+```
+
+Front em http://localhost:5173 · API em http://localhost:8080 · banco semeado
+automaticamente na primeira inicialização.
 
 ## Contas de demonstração
 
@@ -58,9 +76,29 @@ Mesma senha para todos: **1234**
 | Cliente | cliente@email.com |
 | Portaria | portaria@email.com |
 
+## Documentação interativa da API (Swagger)
+
+**Publicada:** https://cine-noir.duckdns.org/swagger-ui/index.html
+
+**Local:** http://localhost:8080/swagger-ui/index.html
+
+Para endpoints autenticados: execute `POST /auth/login`, copie o `token` e
+clique no botão **Authorize** no topo da página — todos os endpoints passam a
+funcionar direto na UI.
+
+Os 7 grupos de endpoints documentados:
+- **Autenticação** — registro e login JWT
+- **Eventos** — CRUD do organizador (com geração automática de grade)
+- **Assentos** — disponibilidade por evento
+- **Reservas** — ciclo de reserva com snapshot de preços
+- **Pagamentos** — aprovação/recusa simulada
+- **Ingressos** — listagem, QR e link público de share
+- **Portaria** — validação de QR/código com retorno estruturado
+- **Catálogo TMDb** — proxy de busca de filmes
+
 ## Roteiro de teste
 
-1. **Organizador** → painel → "Novo evento" → busca por filme do TMDb
+1. **Organizador** → painel → "Novo evento" → busca no TMDb (mín. 2 letras)
    → escolhe o filme → define data/local/capacidade/preço → publica.
 2. **Cliente** → catálogo com busca → abre o evento → "Comprar ingresso" →
    mapa de assentos (livre/selecionado/ocupado) → escolhe inteira ou meia **por
@@ -71,9 +109,10 @@ Mesma senha para todos: **1234**
    link público que funciona até deslogado.
 5. **Minhas reservas** → pagamentos pendentes ficam listados com "Continuar
    pagamento" (checkout abandonado segura o assento até lá).
-6. **Portaria** → escaneia o QR pela câmera (ou digita o código) →
-   ENTRADA LIBERADA; segunda leitura → JÁ UTILIZADO; ingresso de outra
-   sessão → EVENTO ERRADO; código inexistente → INVÁLIDO.
+6. **Portaria** → Ao receber o link do ingresso compartilhado,
+   escaneia o QR pela câmera (ou digita o código) →
+   ENTRADA LIBERADA; segunda leitura → JÁ UTILIZADO (409); ingresso de outra
+   sessão → EVENTO ERRADO (422); código inexistente → INVÁLIDO (404).
 
 ## Decisões de arquitetura (o "porquê" das coisas)
 
