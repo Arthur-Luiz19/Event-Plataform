@@ -19,20 +19,33 @@
   --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   color: var(--color-ink);
   font-family: var(--font-sans);
   color-scheme: dark;
 
   background-color: var(--color-bg);
-  background-image:
-    radial-gradient(ellipse at center, rgb(10 10 13 / 0.75) 0%, rgb(10 10 13 / 0.88) 100%),
-    url('/bg-cinema.png');
+  background-image: radial-gradient(ellipse at center, rgb(10 10 13 / 0.75) 0%, rgb(10 10 13 / 0.88) 100%), url('/bg-cinema.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  overflow-x: clip;
+}
+
+@media (max-width: 767px) {
+  html,
+  body,
+  #root {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
 }
 
 /* detalhe de acabamento: seleção cor de refletor */
